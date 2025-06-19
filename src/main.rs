@@ -46,19 +46,17 @@ fn main() -> Result<(), Box<dyn Error>> {
     // Iterate through each pixel
     for (x, y, pixel) in img.enumerate_pixels() {
         let rgba = pixel.0; // Get the RGBA values
-        let c = Color {
-            r: u8_to_float(rgba[0]),
-            g: u8_to_float(rgba[1]),
-            b: u8_to_float(rgba[2]),
-        };
+        if rgba[3] == 0 {
+            continue;
+        }
         let white = Color {
             r: 1.0,
             g: 1.0,
             b: 1.0,
         };
         let params = MtlParams {
-            ambient_color: c,
-            diffuse_color: c,
+            ambient_color: white,
+            diffuse_color: white,
             specular_color: white,
         };
         let mat = Mtl::builder(params)
@@ -77,8 +75,7 @@ fn main() -> Result<(), Box<dyn Error>> {
             } * 0.1,
             0.1,
             mat,
-            // None,
-            None,
+            Some(vec![icord; 4]),
         );
         pb.inc(1);
     }

@@ -65,7 +65,7 @@ impl Obj {
         position: Vec3,
         scale: f32,
         material: Mtl,
-        texture_coordinates: Option<Vec3>,
+        texture_coordinates: Option<Vec<Vec3>>,
     ) {
         let vertices = [
             (1.0, 1.0, 1.0),    // Vertex 1
@@ -91,8 +91,10 @@ impl Obj {
         }
         let tc = if let Some(x) = texture_coordinates {
             let first_text_coord = self.texture_coordinates.len();
-            self.texture_coordinates.push(x);
-            Some(vec![first_text_coord; 4])
+            for v in x {
+                self.texture_coordinates.push(v);
+            }
+            Some((first_text_coord+1..self.texture_coordinates.len()+1).collect())
         } else {
             None
         };
@@ -156,7 +158,7 @@ impl Obj {
                 }
                 s += "f ";
                 if let Some(x) = &f.texture_coordinates {
-                    for (v, t) in x.iter().zip(&f.vertices) {
+                    for (t, v) in x.iter().zip(&f.vertices) {
                         s += &format!(" {}/{} ", v, t);
                     }
                 } else {

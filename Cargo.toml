@@ -1,7 +1,8 @@
 [package]
-name = "voxel"
+name = "voxelinator"
 version = "0.1.0"
 edition = "2024"
+default-run = "voxelinator"
 
 [dependencies]
 image = "0.25.6"

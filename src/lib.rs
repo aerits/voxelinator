@@ -1,2 +1,2 @@
-mod vec3;
-mod obj;
+pub mod vec3;
+pub mod obj;
