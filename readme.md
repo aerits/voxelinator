@@ -16,3 +16,5 @@ voxel --input <input image> --output <output file name>
 - need to figure out how to not have 100k different materials for each color
     - use uv mapping somehow
 - need to figure out how to remove faces that aren't visible or are overlapping
+- need to optimize the model to not have 44 million vertices, even if a high resolution image is not really the intended usage
+    - the image above should only have 8 vertices since its a rectangle
