@@ -8,6 +8,10 @@ voxel --input <input image> --output <output file name>
 - work in progress to get to 6 images to turn into a 3d voxels
 - outputs a .obj and a .mtl
 
+![blender](hub-images/blend.png)
+
+![terminal](hub-images/term.png)
+
 # wip
 - need to figure out how to not have 100k different materials for each color
     - use uv mapping somehow
