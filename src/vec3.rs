@@ -6,6 +6,11 @@ pub struct Vec3 {
     pub y: f32,
     pub z: f32,
 }
+impl Vec3 {
+    pub fn from_float(n: f32) -> Vec3 {
+        Vec3 { x: n, y: n, z: n }
+    }
+}
 impl Add for Vec3 {
     fn add(self, rhs: Self) -> Vec3 {
         return Vec3 {

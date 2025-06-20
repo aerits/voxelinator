@@ -134,21 +134,46 @@ impl Obj {
             self.faces.push(face);
         }
     }
+    pub fn new_rect(
+        &mut self,
+        position: Vec3,
+        x_scale: f32,
+        y_scale: f32,
+        z_scale: f32,
+        material: Mtl,
+        texture_coordinates: Option<Vec<Vec3>>,
+    ) {
+        self.new_cube(position, 1.0, material, texture_coordinates);
+        let last_vert = self.vertices.len();
+        let vertices = &mut self.vertices[last_vert-8..last_vert];
+        assert_eq!(8, vertices.len());
+        for vert in vertices {
+            vert.x *= x_scale;
+            vert.y *= y_scale;
+            vert.z *= z_scale;
+        }
+    }
     pub fn export_obj(&self, materials: PathBuf) -> String {
         let mut s = String::new();
         s += &format!("mtllib {:?}\n", materials);
+
+        println!("writing vertices");
         let pb = ProgressBar::new(self.vertices.len() as u64 + 1);
         for v in &self.vertices {
             s += &format!("v {} {} {}\n", v.x, v.y, v.z);
             pb.inc(1);
         }
-        println!("finished vert");
+        pb.finish_and_clear();
+        
+        println!("writing uv");
         let pb3 = ProgressBar::new(self.vertices.len() as u64 + 1);
         for vt in &self.texture_coordinates {
             s += &format!("vt {} {}\n", vt.x, vt.y);
             pb3.inc(1);
         }
-        println!("finished vt");
+        pb3.finish_and_clear();
+
+        println!("writing faces");
         let pb2 = ProgressBar::new(self.faces.len() as u64 + 1);
         {
             let mut last_face: Option<&Face> = None;
@@ -170,7 +195,7 @@ impl Obj {
                 last_face = Some(f);
                 pb2.inc(1);
             }
-            println!("finished face");
+            pb2.finish_and_clear();
         }
 
         return s;

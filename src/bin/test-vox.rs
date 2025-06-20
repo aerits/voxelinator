@@ -23,13 +23,15 @@ fn main() -> Result<(), Box<dyn Error>> {
     .with_dissolve(Some(1.0))
     .with_diffuse_texture_map(Some(0))
     .build();
-    model.new_cube(
+    model.new_rect(
         Vec3 {
             x: 0.0,
             y: 0.0,
             z: 0.0,
         },
         1.0,
+        10.0,
+        10.0,
         mat,
         Some(vec![
             Vec3 {
